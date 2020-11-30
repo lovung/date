@@ -1,15 +1,16 @@
-package date
+package nulldate
 
 import (
 	"testing"
 	"time"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/lovung/date"
 )
 
 func TestDate_UnmarshalJSON(t *testing.T) {
 	type fields struct {
-		Date  time.Time
+		Date  date.Date
 		Valid bool
 	}
 	type args struct {
@@ -20,88 +21,88 @@ func TestDate_UnmarshalJSON(t *testing.T) {
 		fields  fields
 		args    args
 		wantErr bool
-		want    *Date
+		want    *NullDate
 	}{
 		{
 			fields: fields{
-				Date:  time.Time{},
+				Date:  date.NewZero(),
 				Valid: false,
 			},
 			args: args{
 				bs: []byte{},
 			},
-			want: &Date{
-				Date:  time.Time{},
+			want: &NullDate{
+				Date:  date.NewZero(),
 				Valid: false,
 			},
 			wantErr: true,
 		},
 		{
 			fields: fields{
-				Date:  time.Time{},
+				Date:  date.NewZero(),
 				Valid: false,
 			},
 			args: args{
 				bs: []byte(""),
 			},
-			want: &Date{
-				Date:  time.Time{},
+			want: &NullDate{
+				Date:  date.NewZero(),
 				Valid: false,
 			},
 			wantErr: true,
 		},
 		{
 			fields: fields{
-				Date:  time.Time{},
+				Date:  date.NewZero(),
 				Valid: false,
 			},
 			args: args{
 				bs: []byte("1234"),
 			},
-			want: &Date{
-				Date:  time.Time{},
+			want: &NullDate{
+				Date:  date.NewZero(),
 				Valid: false,
 			},
 			wantErr: true,
 		},
 		{
 			fields: fields{
-				Date:  time.Time{},
+				Date:  date.NewZero(),
 				Valid: false,
 			},
 			args: args{
 				bs: []byte("\"\""),
 			},
-			want: &Date{
-				Date:  time.Time{},
+			want: &NullDate{
+				Date:  date.NewZero(),
 				Valid: false,
 			},
 			wantErr: false,
 		},
 		{
 			fields: fields{
-				Date:  time.Time{},
+				Date:  date.NewZero(),
 				Valid: false,
 			},
 			args: args{
 				bs: []byte("\"12345-01-01\""),
 			},
-			want: &Date{
-				Date:  time.Time{},
+			want: &NullDate{
+				Date:  date.NewZero(),
 				Valid: false,
 			},
 			wantErr: true,
 		},
 		{
 			fields: fields{
-				Date:  time.Time{},
+				Date:  date.NewZero(),
 				Valid: false,
 			},
 			args: args{
 				bs: []byte("\"2020-01-01\""),
 			},
-			want: &Date{
-				Date:  time.Date(2020, time.Month(1), 1, 0, 0, 0, 0, time.UTC),
+			want: &NullDate{
+				Date:  date.New(time.Date(2020, time.Month(1), 1, 0, 0, 0, 0, time.UTC)),
 				Valid: true,
 			},
 			wantErr: false,
@@ -109,15 +110,15 @@ func TestDate_UnmarshalJSON(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := &Date{
+			d := &NullDate{
 				Date:  tt.fields.Date,
 				Valid: tt.fields.Valid,
 			}
 			if err := d.UnmarshalJSON(tt.args.bs); (err != nil) != tt.wantErr {
-				t.Errorf("Date.UnmarshalJSON() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("NullDate.UnmarshalJSON() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if diff := cmp.Diff(d, tt.want); diff != "" {
-				t.Errorf("Date.UnmarshalJSON() diff = %v", diff)
+				t.Errorf("NullDate.UnmarshalJSON() diff = %v", diff)
 			}
 		})
 	}
@@ -125,7 +126,7 @@ func TestDate_UnmarshalJSON(t *testing.T) {
 
 func TestDate_MarshalJSON(t *testing.T) {
 	type fields struct {
-		Date  time.Time
+		Date  date.Date
 		Valid bool
 	}
 	tests := []struct {
@@ -136,7 +137,7 @@ func TestDate_MarshalJSON(t *testing.T) {
 	}{
 		{
 			fields: fields{
-				Date:  time.Time{},
+				Date:  date.NewZero(),
 				Valid: false,
 			},
 			want:    []byte("null"),
@@ -144,7 +145,7 @@ func TestDate_MarshalJSON(t *testing.T) {
 		},
 		{
 			fields: fields{
-				Date:  time.Date(12345, time.January, 1, 0, 0, 0, 0, time.UTC),
+				Date:  date.New(time.Date(12345, time.January, 1, 0, 0, 0, 0, time.UTC)),
 				Valid: true,
 			},
 			want:    nil,
@@ -152,7 +153,7 @@ func TestDate_MarshalJSON(t *testing.T) {
 		},
 		{
 			fields: fields{
-				Date:  time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC),
+				Date:  date.New(time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC)),
 				Valid: true,
 			},
 			want:    []byte("\"2020-01-01\""),
@@ -161,7 +162,7 @@ func TestDate_MarshalJSON(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := Date{
+			d := NullDate{
 				Date:  tt.fields.Date,
 				Valid: tt.fields.Valid,
 			}
