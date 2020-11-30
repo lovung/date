@@ -24,12 +24,9 @@ func (d Date) DaysOfMonth() int {
 // so, for example, adding one month to October 31 yields
 // December 1, the normalized form for November 31.
 func (d Date) AddDate(year, month, day int) Date {
-	if !d.Valid {
-		return NewZero()
-	}
-	t := d.Ptr()
-	*t = t.AddDate(year, month, day)
-	return NewFrom(*t)
+	t := d.ToTime()
+	t = t.AddDate(year, month, day)
+	return New(t)
 }
 
 // AddMonths return add the number of months.

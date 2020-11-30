@@ -6,36 +6,25 @@ import (
 )
 
 func TestDate_String(t *testing.T) {
-	type fields struct {
-		Date  time.Time
-		Valid bool
-	}
+	d1 := Date(time.Date(2020, 01, 01, 0, 0, 0, 0, time.UTC))
+	d0 := Date(time.Time{})
 	tests := []struct {
-		name   string
-		fields fields
-		want   string
+		name string
+		d    Date
+		want string
 	}{
 		{
-			fields: fields{
-				Date:  time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC),
-				Valid: true,
-			},
+			d:    d1,
 			want: "2020-01-01",
 		},
 		{
-			fields: fields{
-				Date:  time.Time{},
-				Valid: false,
-			},
-			want: "",
+			d:    d0,
+			want: "0001-01-01",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := Date{
-				Date:  tt.fields.Date,
-				Valid: tt.fields.Valid,
-			}
+			d := tt.d
 			if got := d.String(); got != tt.want {
 				t.Errorf("Date.String() = %v, want %v", got, tt.want)
 			}

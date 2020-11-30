@@ -4,20 +4,17 @@ import "time"
 
 // Before compares date if it's before or not
 func (d Date) Before(ref Date) bool {
-	return d.GetValue().Before(ref.GetValue())
+	return d.ToTime().Before(ref.ToTime())
 }
 
 // After compares date if it's after or not
 func (d Date) After(ref Date) bool {
-	return d.GetValue().After(ref.GetValue())
+	return d.ToTime().After(ref.ToTime())
 }
 
 // YMD returns year, month and day of the Date
 func (d Date) YMD() (year int, month time.Month, day int) {
-	if !d.Valid {
-		panic("nil date")
-	}
-	return d.Date.Date()
+	return d.ToTime().Date()
 }
 
 // Year returns the year of the Date
@@ -32,7 +29,7 @@ func (d Date) Month() time.Month {
 	return m
 }
 
-// Day returns the day of the Date
+// Day returns the day of the NullDate
 func (d Date) Day() int {
 	_, _, day := d.YMD()
 	return day
@@ -40,7 +37,7 @@ func (d Date) Day() int {
 
 // Sub return duration date - ref
 func (d Date) Sub(ref Date) time.Duration {
-	return d.GetValue().Sub(ref.GetValue())
+	return d.ToTime().Sub(ref.ToTime())
 }
 
 // Equal to compare with another

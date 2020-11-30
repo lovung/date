@@ -1,4 +1,4 @@
-package date
+package nulldate
 
 import (
 	"bytes"
@@ -6,12 +6,13 @@ import (
 	"time"
 
 	jsoniter "github.com/json-iterator/go"
+	"github.com/lovung/date"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 // UnmarshalJSON to parse the JSON
-func (d *Date) UnmarshalJSON(bs []byte) error {
+func (d *NullDate) UnmarshalJSON(bs []byte) error {
 	var s string
 	err := json.Unmarshal(bs, &s)
 	if err != nil {
@@ -21,18 +22,18 @@ func (d *Date) UnmarshalJSON(bs []byte) error {
 		*d = NewZero()
 		return nil
 	}
-	t, err := time.ParseInLocation(RFC3339Date, s, time.UTC)
+	t, err := time.ParseInLocation(date.RFC3339Date, s, time.UTC)
 	if err != nil {
 		return err
 	}
-	*d = New(t)
+	*d = NewFrom(t)
 	return nil
 }
 
 // MarshalJSON marshal to the JSON
-func (d Date) MarshalJSON() ([]byte, error) {
+func (d NullDate) MarshalJSON() ([]byte, error) {
 	var b bytes.Buffer
-	if d.IsZero() {
+	if !d.Valid {
 		b.WriteString(`null`)
 		return b.Bytes(), nil
 	}
@@ -43,7 +44,7 @@ func (d Date) MarshalJSON() ([]byte, error) {
 		return nil, errors.New("date.MarshalJSON: year outside of range [0,9999]")
 	}
 	b.WriteString(`"`)
-	b.WriteString(t.Format(RFC3339Date))
+	b.WriteString(t.Format(date.RFC3339Date))
 	b.WriteString(`"`)
 	return b.Bytes(), nil
 }
