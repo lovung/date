@@ -1,14 +1,11 @@
 # Date Type Support in Golang
-https://github.com/lovung/date/workflows/go/badge.svg
+https://github.com/lovung/date/workflows/Go/badge.svg
 [![codecov](https://codecov.io/gh/lovung/date/branch/main/graph/badge.svg?token=BlpWq5Bmcl)](https://codecov.io/gh/lovung/date)
 
 - [x] Date type in Golang
 - [x] Unit testing
 - [x] NullDate support
 - [x] Some methods to working with Date type
-
-    --
-    import "."
 
 
 ## Usage
