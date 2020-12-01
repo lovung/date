@@ -1,5 +1,6 @@
 # Date Type Support in Golang
 ![Go](https://github.com/lovung/date/workflows/Go/badge.svg)
+![Goreport](https://goreportcard.com/badge/github.com/lovung/date)
 [![codecov](https://codecov.io/gh/lovung/date/branch/main/graph/badge.svg?token=BlpWq5Bmcl)](https://codecov.io/gh/lovung/date)
 
 - [x] Date type in Golang
