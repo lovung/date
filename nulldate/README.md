@@ -1,7 +1,4 @@
 # nulldate
---
-    import "."
-
 
 ## Usage
 
