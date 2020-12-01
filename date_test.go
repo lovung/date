@@ -141,14 +141,7 @@ func TestMustParse(t *testing.T) {
 		})
 	}
 
-	func() {
-		defer func() {
-			if r := recover(); r == nil {
-				t.Errorf("TestMustParse should have panicked!")
-			}
-		}()
-		MustParse("2020-13-01")
-	}()
+	shouldPanic(t, func() { MustParse("2020-13-01") })
 }
 
 func TestDate_ToTime(t *testing.T) {
@@ -195,4 +188,10 @@ func TestDate_IsZero(t *testing.T) {
 			}
 		})
 	}
+}
+
+func shouldPanic(t *testing.T, f func()) {
+	defer func() { recover() }()
+	f()
+	t.Errorf("should have panicked")
 }
