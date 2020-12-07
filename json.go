@@ -1,7 +1,6 @@
 package date
 
 import (
-	"bytes"
 	"errors"
 	"time"
 
@@ -31,10 +30,8 @@ func (d *Date) UnmarshalJSON(bs []byte) error {
 
 // MarshalJSON marshal to the JSON
 func (d Date) MarshalJSON() ([]byte, error) {
-	var b bytes.Buffer
 	if d.IsZero() {
-		b.WriteString(`null`)
-		return b.Bytes(), nil
+		return json.Marshal(nil)
 	}
 	var t = d.ToTime()
 	if y := t.Year(); y < 0 || y >= 10000 {
@@ -42,8 +39,5 @@ func (d Date) MarshalJSON() ([]byte, error) {
 		// See golang.org/issue/4556#c15 for more discussion.
 		return nil, errors.New("date.MarshalJSON: year outside of range [0,9999]")
 	}
-	b.WriteString(`"`)
-	b.WriteString(t.Format(RFC3339Date))
-	b.WriteString(`"`)
-	return b.Bytes(), nil
+	return json.Marshal(t.Format(RFC3339Date))
 }
