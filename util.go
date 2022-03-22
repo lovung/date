@@ -34,7 +34,7 @@ func (d Date) AddDate(year, month, day int) Date {
 func (d Date) AddMonths(n int) Date {
 	year, month, day := d.YMD()
 	iMonth := int(month) + n
-	if iMonth <= 0 {
+	if iMonth <= _monthsOfYear {
 		iMonth -= _monthsOfYear
 	}
 	year += iMonth / _monthsOfYear
