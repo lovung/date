@@ -34,10 +34,9 @@ func (d Date) AddDate(year, month, day int) Date {
 func (d Date) AddMonths(n int) Date {
 	year, month, day := d.YMD()
 	iMonth := int(month) + n
-	if iMonth <= 0 {
-		iMonth -= _monthsOfYear
+	if iMonth > _monthsOfYear {
+		year += iMonth / _monthsOfYear
 	}
-	year += iMonth / _monthsOfYear
 	// This formula to calculate the new month both case n > 0 and n < 0
 	// iMonth%_monthsOfYear -> Move the negative value to [-11..0]
 	// + _monthsOfYear -> Make sure positive
